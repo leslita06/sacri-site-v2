@@ -36,7 +36,7 @@ section{padding:96px 0}
 .hero{position:relative;min-height:640px;display:flex;align-items:center;color:#fff;overflow:hidden;padding:0}
 .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center 60%}
 .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,17,16,.92) 0%,rgba(18,17,16,.75) 45%,rgba(18,17,16,.15) 100%)}
-.hero-in{position:relative;padding-top:80px;padding-bottom:80px}
+.hero-in{position:relative;padding-top:80px;padding-bottom:80px;width:100%}
 .hero h1{max-width:680px}
 .lead{font-size:20px;max-width:560px;margin:22px 0 34px;color:#E8E4DF}
 .ctas{display:flex;gap:14px;flex-wrap:wrap}
