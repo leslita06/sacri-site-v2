@@ -108,8 +108,17 @@
   function fmtDate(v) { if (!v) return ''; var p = v.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
   var store = { get: function (k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } } };
   if (af) {
-    var jour = af.elements.jour, t = new Date(); t.setDate(t.getDate() + 1);
-    jour.min = t.toISOString().slice(0, 10);
+    var jour = af.elements.jour, JS = ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'];
+    function p2(n) { return (n < 10 ? '0' : '') + n; }
+    for (var di = 1, nb = 0; nb < 12 && di < 20; di++) {
+      var t = new Date(); t.setDate(t.getDate() + di);
+      if (t.getDay() === 0) continue;
+      var o = document.createElement('option');
+      o.value = t.getFullYear() + '-' + p2(t.getMonth() + 1) + '-' + p2(t.getDate());
+      o.textContent = JS[t.getDay()] + ' ' + p2(t.getDate()) + '/' + p2(t.getMonth() + 1) + '/' + t.getFullYear();
+      jour.appendChild(o); nb++;
+    }
+    jour.options[0].textContent = 'Choisir un jour';
     af.elements.photo.addEventListener('change', function () { var f = this.files[0]; $('#at-file').textContent = f ? f.name + ', à joindre dans WhatsApp' : "facultatif, à joindre ensuite dans WhatsApp"; });
     af.addEventListener('submit', function (e) {
       e.preventDefault();
