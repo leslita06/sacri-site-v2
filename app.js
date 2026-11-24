@@ -27,40 +27,6 @@
     links.forEach(function (a) { var s = $(a.getAttribute('href')); if (s) secObs.observe(s); });
   }
 
-  // apparitions sobres
-  var rv = $$('.rv');
-  function countUp(el) {
-    var end = +el.dataset.count; if (!end || el.dataset.plain) return;
-    var t0 = null, dur = 900;
-    function step(t) { if (!t0) t0 = t; var p = Math.min(1, (t - t0) / dur); el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); }
-    requestAnimationFrame(step);
-  }
-  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    var obs = new IntersectionObserver(function (es) {
-      es.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        e.target.classList.add('in');
-        $$('[data-count]', e.target).forEach(countUp);
-        obs.unobserve(e.target);
-      });
-    }, { threshold: 0.12 });
-    rv.forEach(function (el) { obs.observe(el); });
-  } else rv.forEach(function (el) { el.classList.add('in'); });
-
-  // filtres STIHL
-  $$('.tab').forEach(function (t) {
-    t.addEventListener('click', function () {
-      $$('.tab').forEach(function (x) { x.classList.remove('on'); x.setAttribute('aria-selected', 'false'); });
-      t.classList.add('on'); t.setAttribute('aria-selected', 'true');
-      var f = t.dataset.f;
-      $$('#machines article').forEach(function (a) {
-        var show = f === 'all' || a.dataset.c === f;
-        a.classList.toggle('hide', !show);
-        a.classList.remove('pop'); if (show) { void a.offsetWidth; a.classList.add('pop'); }
-      });
-    });
-  });
-
   // demande de devis : le message est préparé, la personne l'envoie elle-même
   var m = $('#modal'), msg = $('#m-msg'), mail = $('#m-mail'), copy = $('#m-copy');
   function open(txt) {
