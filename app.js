@@ -156,4 +156,15 @@
     tf.addEventListener('submit', function (e) { e.preventDefault(); track(); });
     $$('[data-try]').forEach(function (b) { b.addEventListener('click', function () { $('#tr-n').value = b.dataset.try; track(); }); });
   }
+
+  /* ---------- v7 : pause de la vidéo et du mur de logos ---------- */
+  var hv = $('#hero-v'), hp = $('#hero-pp');
+  if (hv && hp) {
+    var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function setV(paused) { hp.setAttribute('aria-pressed', paused); hp.setAttribute('aria-label', paused ? 'Relancer la vidéo' : 'Mettre la vidéo en pause'); }
+    if (rm) { hv.removeAttribute('autoplay'); hv.pause(); setV(true); }
+    hp.addEventListener('click', function () { if (hv.paused) { hv.play(); setV(false); } else { hv.pause(); setV(true); } });
+  }
+  var mq = $('#marquee'), mp = $('#mq-pp');
+  if (mq && mp) mp.addEventListener('click', function () { var on = !mq.classList.contains('paused'); mq.classList.toggle('paused', on); mp.setAttribute('aria-pressed', on); $('span', mp).textContent = on ? 'Relancer le défilement' : 'Arrêter le défilement'; });
 })();
